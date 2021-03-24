@@ -1,3 +1,34 @@
+<!DOCTYPE resources [<!ENTITY app_name "BaseArchitecture">]>
 <resources>
-    <string name="app_name">DaggerDemo</string>
+    <string name="app_name">&app_name;</string>
+
+    <string name="number"># %d</string>
+    <string name="height">Height: %d</string>
+    <string name="weight">Weight: %d</string>
+    <string name="primary_ability">Primary ability: %s</string>
+    <string name="secondary_ability">Secondary ability: %s</string>
+    <string name="hidden_ability">Hidden ability: %s</string>
+
+
+    <!-- Pokemon types -->
+    <string name="normal">Normal</string>
+    <string name="fighting">Fighting</string>
+    <string name="fire">Fire</string>
+    <string name="water">Water</string>
+    <string name="flying">Flying</string>
+    <string name="grass">Grass</string>
+    <string name="poison">Poison</string>
+    <string name="electric">Electric</string>
+    <string name="ground">Ground</string>
+    <string name="psychic">Psychic</string>
+    <string name="rock">Rock</string>
+    <string name="ice">Ice</string>
+    <string name="bug">Bug</string>
+    <string name="dragon">Dragon</string>
+    <string name="ghost">Ghost</string>
+    <string name="dark">Dark</string>
+    <string name="steel">Steel</string>
+    <string name="fairy">Fairy</string>
+    <string name="unknown">\???</string>
+    <!-- -->
 </resources>

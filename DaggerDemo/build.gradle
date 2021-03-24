@@ -1,11 +1,32 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
 }
+
+apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
+
+    def API_ROOT = "API_ROOT"
+    def STAR_WARS_API_ROOT = "STAR_WARS_API_ROOT"
+    def POKEMON_API_ROOT = "POKEMON_API_ROOT"
+    def DATABASE_NAME = "DATABASE_NAME"
+
+    def PROD_DATABASE_NAME = "\"prod_database_name\""
+    def PROD_API_ROOT = "\"https://reqres.in/api/\""
+    def PROD_STAR_WARS_API_ROOT = "\"https://swapi.dev/api/\""
+    def PROD_POKEMON_API_ROOT = "\"https://pokeapi.co/api/v2/\""
+
+    def STAGING_DATABASE_NAME = "\"staging_database_name\""
+    def STAGING_API_ROOT = "\"https://reqres.in/api/\""
+    def STAGING_STAR_WARS_API_ROOT = "\"https://swapi.dev/api/\""
+    def STAGING_POKEMON_API_ROOT = "\"https://pokeapi.co/api/v2/\""
+
+    def STAGING_PIXA_BAY_API_KEY = "\"8630898-e092bf16cb1dd9ff6a483dabf\""
 
     defaultConfig {
         applicationId "com.tangosource.android.daggerdemo"
@@ -23,6 +44,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-rules-debug.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-debug.pro', 'proguard-rules-test.pro'
+            versionNameSuffix "-debug"
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -30,15 +66,101 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    flavorDimensions "api"
+    productFlavors {
+        prod {
+            buildConfigField "String", API_ROOT, PROD_API_ROOT
+            buildConfigField "String", STAR_WARS_API_ROOT, PROD_STAR_WARS_API_ROOT
+            buildConfigField "String", POKEMON_API_ROOT, PROD_POKEMON_API_ROOT
+            buildConfigField "String", DATABASE_NAME, PROD_DATABASE_NAME
+        }
+
+        staging {
+            buildConfigField "String", API_ROOT, STAGING_API_ROOT
+            buildConfigField "String", STAR_WARS_API_ROOT, STAGING_STAR_WARS_API_ROOT
+            buildConfigField "String", POKEMON_API_ROOT, STAGING_POKEMON_API_ROOT
+            buildConfigField "String", DATABASE_NAME, STAGING_DATABASE_NAME
+        }
+    }
 }
 
 dependencies {
 
+    // Android libraries
+    api 'androidx.recyclerview:recyclerview:1.1.0'
+    api 'androidx.constraintlayout:constraintlayout:2.0.4'
+    api 'androidx.cardview:cardview:1.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
-    testImplementation 'junit:junit:4.+'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    androidTestImplementation 'androidx.multidex:multidex:2.0.1'
+
+    // Retrofit
+    api "com.squareup.retrofit2:retrofit:$retrofit_version"
+    api "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    api "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    api "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+
+    // OkHttp3
+    api 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.2.1'
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.2.1'
+
+    // Mockito
+    testImplementation 'org.mockito:mockito-core:2.23.0'
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
+    androidTestImplementation 'org.mockito:mockito-android:2.23.0'
+    androidTestImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
+
+
+    // Lifecycle
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    api "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    // Dagger
+    api "com.google.dagger:dagger:$dagger_version"
+    api "com.google.dagger:dagger-android:$dagger_version"
+    api "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    // Room
+    api "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    // Placeholder loading library
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+
+    //Paging library
+    implementation "androidx.paging:paging-runtime:$paging_version" // For Kotlin use paging-runtime-ktx
+    // alternatively - without Android dependencies for testing
+    testImplementation "androidx.paging:paging-common:$paging_version" // For Kotlin use paging-common-ktx
+    // optional - RxJava support
+    implementation "androidx.paging:paging-rxjava2:$paging_version"
+
+    // Moshi
+    api "com.squareup.moshi:moshi:$moshi_version"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+    implementation "com.squareup.moshi:moshi-adapters:$moshi_version"
+
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

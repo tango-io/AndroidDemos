@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="med_margin">32dp</dimen>
+    <dimen name="big_margin">64dp</dimen>
+
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="small_padding">8dp</dimen>
+
+    <dimen name="default_elevation">8dp</dimen>
+    <dimen name="default_corner_radius">8dp</dimen>
+
+    <dimen name="spacing_0">8dp</dimen>
+    <dimen name="spacing_1">10dp</dimen>
+    <dimen name="spacing_2">12dp</dimen>
+    <dimen name="spacing_3">14dp</dimen>
+    <dimen name="spacing_4">16dp</dimen>
+    <dimen name="spacing_5">22dp</dimen>
+    <dimen name="spacing_6">28dp</dimen>
+</resources>

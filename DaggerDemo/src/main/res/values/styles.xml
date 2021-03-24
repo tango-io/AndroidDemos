@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text.PokemonType" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/type_background</item>
+        <item name="android:paddingStart">@dimen/default_padding</item>
+        <item name="android:paddingEnd">@dimen/default_padding</item>
+        <item name="android:paddingTop">@dimen/small_padding</item>
+        <item name="android:paddingBottom">@dimen/small_padding</item>
+    </style>
+
+</resources>
